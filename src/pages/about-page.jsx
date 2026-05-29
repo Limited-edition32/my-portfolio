@@ -227,7 +227,7 @@ const AboutPage = () => {
             Whether you have a specific project in mind or just want to explore possibilities, let's start a conversation.
           </p>
           <a 
-            href="mailto:contact@saipavan.space" 
+            href="mailto:limitededition.edits@gmail.com" 
             className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_rgba(239,68,68,0.8)]"
           >
             <Mail className="w-5 h-5" />
