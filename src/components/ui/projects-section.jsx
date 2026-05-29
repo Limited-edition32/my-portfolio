@@ -148,25 +148,9 @@ const VideoThumbnail = ({ src, isHovered }) => {
 };
 
 // ── Magnetic Play Button ──────────────────────────────────────────────────────
-const MagneticPlayButton = ({ isHovered, mousePos, cardRef }) => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+const MagneticPlayButton = ({ isHovered, x, y }) => {
   const springX = useSpring(x, { stiffness: 150, damping: 15 });
   const springY = useSpring(y, { stiffness: 150, damping: 15 });
-
-  // Update position whenever mousePos changes
-  React.useEffect(() => {
-    if (!isHovered || !cardRef?.current || !mousePos) {
-      x.set(0);
-      y.set(0);
-      return;
-    }
-    const rect = cardRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set((mousePos.clientX - centerX) * 0.35);
-    y.set((mousePos.clientY - centerY) * 0.35);
-  }, [mousePos, isHovered, cardRef, x, y]);
 
   return (
     <motion.div
@@ -185,10 +169,11 @@ const MagneticPlayButton = ({ isHovered, mousePos, cardRef }) => {
 // ── Project Card ──────────────────────────────────────────────────────────────
 const ProjectCard = ({ project, index, onVideoClick }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [mousePos, setMousePos] = useState(null);
   const cardRef = useRef(null);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
+  const playX = useMotionValue(0);
+  const playY = useMotionValue(0);
   const springRotateX = useSpring(rotateX, { stiffness: 100, damping: 20 });
   const springRotateY = useSpring(rotateY, { stiffness: 100, damping: 20 });
 
@@ -197,11 +182,20 @@ const ProjectCard = ({ project, index, onVideoClick }) => {
     const rect = cardRef.current.getBoundingClientRect();
     rotateX.set(-((e.clientY - rect.top) / rect.height - 0.5) * 8);
     rotateY.set(((e.clientX - rect.left) / rect.width - 0.5) * 8);
-    setMousePos({ clientX: e.clientX, clientY: e.clientY });
+    
+    // Magnetic play button math
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    playX.set((e.clientX - centerX) * 0.35);
+    playY.set((e.clientY - centerY) * 0.35);
   };
 
   const handleMouseLeave = () => {
-    rotateX.set(0); rotateY.set(0); setIsHovered(false); setMousePos(null);
+    rotateX.set(0); 
+    rotateY.set(0); 
+    playX.set(0); 
+    playY.set(0);
+    setIsHovered(false);
   };
 
   const handleClick = () => {
@@ -269,7 +263,7 @@ const ProjectCard = ({ project, index, onVideoClick }) => {
           />
 
           {/* Magnetic Play Button */}
-          <MagneticPlayButton isHovered={isHovered} mousePos={mousePos} cardRef={cardRef} />
+          <MagneticPlayButton isHovered={isHovered} x={playX} y={playY} />
 
           {/* Corner arrow */}
           <motion.div

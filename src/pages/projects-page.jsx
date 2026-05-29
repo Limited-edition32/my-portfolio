@@ -322,21 +322,30 @@ function useVideoThumbnail(videoSrc, seekFraction = 0.15) {
 function ProjectCard({ project, onOpen }) {
   const isPortrait = project.type === 'portrait';
   const { canvasRef, ready } = useVideoThumbnail(project.videoSrc);
-  const [playPos, setPlayPos] = useState({ x: 0, y: 0 });
+  const playRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e) => {
+    if (!playRef.current) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    // Magnetic pull ratio
-    setPlayPos({ x: x * 0.3, y: y * 0.3 });
+    // Magnetic pull using direct DOM manipulation to avoid React re-renders
+    playRef.current.style.transform = `translate(calc(-50% + ${x * 0.3}px), calc(-50% + ${y * 0.3}px)) scale(1) rotate(0deg)`;
   };
 
-  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (playRef.current) {
+      playRef.current.style.transform = `translate(-50%, -50%) scale(1) rotate(0deg)`;
+    }
+  };
+  
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setPlayPos({ x: 0, y: 0 });
+    if (playRef.current) {
+      playRef.current.style.transform = `translate(-50%, -50%) scale(0) rotate(-10deg)`;
+    }
   };
 
   return (
@@ -373,10 +382,11 @@ function ProjectCard({ project, onOpen }) {
 
         <div className="pw-scan" />
         <div 
-          className="pw-play" 
+          ref={playRef}
+          className={`pw-play ${isHovered ? 'hovered' : ''}`} 
           style={{
             transform: isHovered 
-              ? `translate(calc(-50% + ${playPos.x}px), calc(-50% + ${playPos.y}px)) scale(1) rotate(0deg)`
+              ? `translate(-50%, -50%) scale(1) rotate(0deg)`
               : `translate(-50%, -50%) scale(0) rotate(-10deg)`
           }}
         />
