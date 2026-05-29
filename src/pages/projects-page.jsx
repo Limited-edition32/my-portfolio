@@ -230,7 +230,8 @@ const PROJECTS = [
     type: 'portrait',
     dur: null,
     gradient: 'linear-gradient(160deg,#1a0505,#0a0a0a)',
-    videoSrc: '/final-client-work.mp4',
+    youtubeId: 'fTo3MmpIjIE',
+    videoSrc: null,
     featured: true,
   },
   {
@@ -350,8 +351,16 @@ function ProjectCard({ project, onOpen }) {
         {/* Gradient base — always shown */}
         <div className="pw-thumb-grad" style={{ background: project.gradient }} />
 
-        {/* Real frame thumbnail via canvas */}
-        {project.videoSrc && (
+        {/* Real frame thumbnail via canvas or youtube image */}
+        {project.youtubeId ? (
+          <img 
+            src={`https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`} 
+            alt={project.title} 
+            className="pw-thumb-canvas" 
+            style={{ opacity: 1, objectFit: 'cover' }} 
+            onError={(e) => { e.target.src = `https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`; e.target.onerror = null; }}
+          />
+        ) : project.videoSrc ? (
           <>
             {!ready && <div className="pw-thumb-shimmer" />}
             <canvas
@@ -360,7 +369,7 @@ function ProjectCard({ project, onOpen }) {
               style={{ opacity: ready ? undefined : 0 }}
             />
           </>
-        )}
+        ) : null}
 
         <div className="pw-scan" />
         <div 
@@ -484,7 +493,15 @@ export default function ProjectsPage() {
           <button className="pw-modal-close" onClick={closeModal}>✕</button>
 
           <div className="pw-modal-video">
-            {activeProject?.videoSrc ? (
+            {activeProject?.youtubeId ? (
+              <iframe
+                src={`https://www.youtube.com/embed/${activeProject.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                allow="autoplay; fullscreen; encrypted-media"
+                allowFullScreen
+                title={activeProject.title}
+                style={{ width: '100%', height: '100%', border: 'none', borderRadius: '16px' }}
+              />
+            ) : activeProject?.videoSrc ? (
               <video
                 ref={videoRef}
                 src={activeProject.videoSrc}
