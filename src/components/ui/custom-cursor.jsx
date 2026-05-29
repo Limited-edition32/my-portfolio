@@ -22,7 +22,11 @@ const CustomCursor = () => {
   const pillX = useSpring(mouseX, { stiffness: 400, damping: 30, mass: 0.15 });
   const pillY = useSpring(mouseY, { stiffness: 400, damping: 30, mass: 0.15 });
 
+  const isTouch = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window);
+
   useEffect(() => {
+    if (isTouch) return;
+
     const move = (e) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
@@ -82,6 +86,8 @@ const CustomCursor = () => {
       document.head.removeChild(style);
     };
   }, [mouseX, mouseY]);
+
+  if (isTouch) return null;
 
   return (
     <>
