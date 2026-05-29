@@ -29,3 +29,4 @@ public/videos/
 # Allow only small video files (<100MB)
 !public/project-1.mp4
 !public/sequence-01.mp4
+!public/videos/Main Comp.mp4

@@ -7,8 +7,7 @@ const projects = [
     id: 1,
     title: "Recreation of fire text animation from OG movie",
     category: "Cinematic Edit",
-    youtubeId: "AjqcpkiWFDs",
-    video: null,
+    video: "/videos/Main Comp.mp4",
     image: null,
     link: "#"
   },
