@@ -5,9 +5,10 @@ import { Play, ArrowUpRight, X } from 'lucide-react';
 const projects = [
   {
     id: 1,
-    title: "Main Composition",
+    title: "Recreation of fire text animation from OG movie",
     category: "Cinematic Edit",
-    video: "/videos/Main Comp.mp4",
+    youtubeId: "AjqcpkiWFDs",
+    video: null,
     image: null,
     link: "#"
   },
@@ -75,13 +76,23 @@ const VideoModal = ({ project, onClose }) => {
         </button>
 
         {/* Video */}
-        <video
-          ref={videoRef}
-          src={project.video}
-          controls
-          autoPlay
-          className="w-full aspect-video bg-black"
-        />
+        {project.youtubeId ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${project.youtubeId}?autoplay=1&rel=0`}
+            allow="autoplay; fullscreen; encrypted-media"
+            allowFullScreen
+            title={project.title}
+            className="w-full aspect-video bg-black border-none"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src={project.video}
+            controls
+            autoPlay
+            className="w-full aspect-video bg-black"
+          />
+        )}
 
         {/* Title bar */}
         <div className="px-6 py-4 bg-black/80 border-t border-white/10 flex items-center gap-3">
@@ -195,7 +206,7 @@ const ProjectCard = ({ project, index, onVideoClick }) => {
   };
 
   const handleClick = () => {
-    if (project.video) onVideoClick(project);
+    if (project.video || project.youtubeId) onVideoClick(project);
   };
 
   return (
@@ -222,7 +233,16 @@ const ProjectCard = ({ project, index, onVideoClick }) => {
         <div className="aspect-video overflow-hidden relative">
 
           {/* Thumbnail — always shows static image/frame */}
-          {project.video ? (
+          {project.youtubeId ? (
+            <motion.img
+              src={`https://i.ytimg.com/vi/${project.youtubeId}/maxresdefault.jpg`}
+              alt={project.title}
+              animate={{ scale: isHovered ? 1.07 : 1 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="w-full h-full object-cover opacity-80"
+              onError={(e) => { e.target.src = `https://i.ytimg.com/vi/${project.youtubeId}/hqdefault.jpg`; e.target.onerror = null; }}
+            />
+          ) : project.video ? (
             <VideoThumbnail src={project.video} isHovered={isHovered} />
           ) : (
             <motion.img
