@@ -321,10 +321,31 @@ function useVideoThumbnail(videoSrc, seekFraction = 0.15) {
 function ProjectCard({ project, onOpen }) {
   const isPortrait = project.type === 'portrait';
   const { canvasRef, ready } = useVideoThumbnail(project.videoSrc);
+  const [playPos, setPlayPos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    // Magnetic pull ratio
+    setPlayPos({ x: x * 0.3, y: y * 0.3 });
+  };
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setPlayPos({ x: 0, y: 0 });
+  };
 
   return (
     <div className={`pw-card${project.featured ? ' featured' : ''}`} onClick={() => onOpen(project)}>
-      <div className={`pw-thumb ${isPortrait ? 'pw-ratio-9-16' : 'pw-ratio-16-9'}`}>
+      <div 
+        className={`pw-thumb ${isPortrait ? 'pw-ratio-9-16' : 'pw-ratio-16-9'}`}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
 
         {/* Gradient base — always shown */}
         <div className="pw-thumb-grad" style={{ background: project.gradient }} />
@@ -342,7 +363,14 @@ function ProjectCard({ project, onOpen }) {
         )}
 
         <div className="pw-scan" />
-        <div className="pw-play" />
+        <div 
+          className="pw-play" 
+          style={{
+            transform: isHovered 
+              ? `translate(calc(-50% + ${playPos.x}px), calc(-50% + ${playPos.y}px)) scale(1) rotate(0deg)`
+              : `translate(-50%, -50%) scale(0) rotate(-10deg)`
+          }}
+        />
 
         {isPortrait
           ? <div className="pw-portrait-badge">9:16 · Short</div>
