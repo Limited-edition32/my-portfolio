@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { Play, ArrowUpRight, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const projects = [
   {
@@ -300,6 +301,7 @@ const ProjectCard = ({ project, index, onVideoClick }) => {
 // ── Projects Section ──────────────────────────────────────────────────────────
 const ProjectsSection = () => {
   const [activeVideo, setActiveVideo] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <section id="works" className="py-24 bg-black text-white relative">
@@ -338,6 +340,7 @@ const ProjectsSection = () => {
           </div>
 
           <motion.button
+            onClick={() => navigate('/projects')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
             className="text-sm uppercase tracking-widest text-red-400 hover:text-white transition-colors border-b border-red-400/30 hover:border-white pb-1 self-start md:self-auto"
