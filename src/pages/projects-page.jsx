@@ -480,10 +480,10 @@ export default function ProjectsPage() {
             <p className="pw-desc">Every project is a story told through motion, color, and rhythm. From viral short-form to cinematic brand films.</p>
           </div>
           <div className="pw-stats">
-            <div className="pw-stat"><div className="pw-stat-num">50+</div><div className="pw-stat-label">Projects Done</div></div>
-            <div className="pw-stat"><div className="pw-stat-num">1M+</div><div className="pw-stat-label">Total Views</div></div>
-            <div className="pw-stat"><div className="pw-stat-num">3+</div><div className="pw-stat-label">Years Exp.</div></div>
-            <div className="pw-stat"><div className="pw-stat-num">20+</div><div className="pw-stat-label">Clients</div></div>
+            <div className="pw-stat"><div className="pw-stat-num">10+</div><div className="pw-stat-label">Projects Done</div></div>
+            <div className="pw-stat"><div className="pw-stat-num">500+</div><div className="pw-stat-label">Total Views</div></div>
+            <div className="pw-stat"><div className="pw-stat-num">2+</div><div className="pw-stat-label">Years Exp.</div></div>
+            <div className="pw-stat"><div className="pw-stat-num">5+</div><div className="pw-stat-label">Clients</div></div>
           </div>
         </div>
       </div>
