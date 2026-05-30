@@ -12,6 +12,14 @@ const projects = [
     image: null,
     link: "#"
   },
+  {
+    id: 2,
+    title: "Recent Client Work",
+    category: "Commercial",
+    video: "/videos/Recent Client Wrok.mp4",
+    image: null,
+    link: "#"
+  }
 ];
 
 // ── Video Lightbox Modal ──────────────────────────────────────────────────────
