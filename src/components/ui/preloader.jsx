@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 const Preloader = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
+    // Reset state on route change
+    setLoading(true);
+    setProgress(0);
+
     // Disable scrolling while loading
     document.body.style.overflow = 'hidden';
     
     let currentProgress = 0;
     const interval = setInterval(() => {
       // Randomly increase progress to simulate real loading
-      currentProgress += Math.floor(Math.random() * 15) + 5;
+      currentProgress += Math.floor(Math.random() * 20) + 10; // slightly faster for internal routing
       if (currentProgress >= 100) {
         currentProgress = 100;
         clearInterval(interval);
@@ -20,13 +26,16 @@ const Preloader = () => {
         setTimeout(() => {
           setLoading(false);
           document.body.style.overflow = 'auto';
-        }, 400);
+        }, 300);
       }
       setProgress(currentProgress);
-    }, 120);
+    }, 100);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      clearInterval(interval);
+      document.body.style.overflow = 'auto';
+    };
+  }, [location.pathname]);
 
   return (
     <AnimatePresence>
