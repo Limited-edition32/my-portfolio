@@ -2,15 +2,8 @@
 
 import React, { useEffect, useRef } from 'react';
 
-// Make sure your index.html <head> has:
-// <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
-
 const HeroSection = () => {
   const canvasRef  = useRef(null);
-  const loaderRef  = useRef(null);
-  const lLogoRef   = useRef(null);
-  const lBarRef    = useRef(null);
-  const lPctRef    = useRef(null);
   const badgeRef   = useRef(null);
   const titleRef   = useRef(null);
   const studioRef  = useRef(null);
@@ -95,15 +88,11 @@ const HeroSection = () => {
     };
   }, []);
 
-  // ── loader + hero animation sequence ─────────────────────────────────────
+  // ── hero animation sequence ─────────────────────────────────────
   useEffect(() => {
     const wait = ms => new Promise(r => setTimeout(r, ms));
 
     const run = async () => {
-      const loader  = loaderRef.current;
-      const lLogo   = lLogoRef.current;
-      const lBar    = lBarRef.current;
-      const lPct    = lPctRef.current;
       const badge   = badgeRef.current;
       const title   = titleRef.current;
       const studio  = studioRef.current;
@@ -115,80 +104,67 @@ const HeroSection = () => {
       const sfill   = sfillRef.current;
       const sarr    = sarrRef.current;
 
-      if (!loader) return;
+      // wait for global preloader to finish its slide up (0.65s)
+      await wait(600);
 
-      // ── LOADER ──────────────────────────────────────────────────────────
-      await wait(120);
-      lLogo.style.transition = 'opacity .4s';
-      lLogo.style.opacity    = '1';
-      await wait(300);
-
-      // progress bar
-      await new Promise(resolve => {
-        let p = 0;
-        const iv = setInterval(() => {
-          p += 2.5;
-          lBar.style.transition = 'width .06s linear';
-          lBar.style.width      = Math.min(p, 100) + '%';
-          lPct.textContent      = Math.floor(Math.min(p, 100)) + '%';
-          if (p >= 100) { clearInterval(iv); resolve(); }
-        }, 30);
-      });
-
-      await wait(200);
-
-      // ── WIPE LOADER OUT ──────────────────────────────────────────────────
-      loader.style.transition      = 'transform 0.65s cubic-bezier(0.76,0,0.24,1)';
-      loader.style.transformOrigin = 'top';
-      loader.style.transform       = 'scaleY(0)';
-
-      // ── HERO ANIMATIONS — fire immediately as wipe begins ────────────────
+      // ── HERO ANIMATIONS ────────────────
 
       // badge
-      badge.style.transition = 'opacity .5s ease, transform .5s ease';
-      badge.style.opacity    = '1';
-      badge.style.transform  = 'translateY(0)';
+      if (badge) {
+        badge.style.transition = 'opacity .5s ease, transform .5s ease';
+        badge.style.opacity    = '1';
+        badge.style.transform  = 'translateY(0)';
+      }
 
       // vertical lines
-      vl.style.transition = 'height .7s cubic-bezier(0.76,0,0.24,1)';
-      vr.style.transition = 'height .7s cubic-bezier(0.76,0,0.24,1)';
-      vl.style.height     = '90px';
-      vr.style.height     = '90px';
+      if (vl && vr) {
+        vl.style.transition = 'height .7s cubic-bezier(0.76,0,0.24,1)';
+        vr.style.transition = 'height .7s cubic-bezier(0.76,0,0.24,1)';
+        vl.style.height     = '90px';
+        vr.style.height     = '90px';
+      }
 
       // title slides down
       await wait(200);
-      title.style.transition = 'opacity .7s cubic-bezier(0.22,1,0.36,1), transform .7s cubic-bezier(0.22,1,0.36,1)';
-      title.style.opacity    = '1';
-      title.style.transform  = 'translateY(0)';
+      if (title) {
+        title.style.transition = 'opacity .7s cubic-bezier(0.22,1,0.36,1), transform .7s cubic-bezier(0.22,1,0.36,1)';
+        title.style.opacity    = '1';
+        title.style.transform  = 'translateY(0)';
+      }
 
       // studio slides up
       await wait(180);
-      studio.style.transition = 'opacity .6s cubic-bezier(0.22,1,0.36,1), transform .6s cubic-bezier(0.22,1,0.36,1)';
-      studio.style.opacity    = '1';
-      studio.style.transform  = 'translateY(0)';
+      if (studio) {
+        studio.style.transition = 'opacity .6s cubic-bezier(0.22,1,0.36,1), transform .6s cubic-bezier(0.22,1,0.36,1)';
+        studio.style.opacity    = '1';
+        studio.style.transform  = 'translateY(0)';
+      }
 
       // tagline
       await wait(220);
-      tagline.style.transition = 'opacity .6s ease, transform .6s ease';
-      tagline.style.opacity    = '1';
-      tagline.style.transform  = 'translateY(0)';
+      if (tagline) {
+        tagline.style.transition = 'opacity .6s ease, transform .6s ease';
+        tagline.style.opacity    = '1';
+        tagline.style.transform  = 'translateY(0)';
+      }
 
       // rule sweeps
       await wait(180);
-      rule.style.transition = 'transform .9s cubic-bezier(0.76,0,0.24,1), opacity .3s';
-      rule.style.opacity    = '1';
-      rule.style.transform  = 'scaleX(1)';
+      if (rule) {
+        rule.style.transition = 'transform .9s cubic-bezier(0.76,0,0.24,1), opacity .3s';
+        rule.style.opacity    = '1';
+        rule.style.transform  = 'scaleX(1)';
+      }
 
       // scroll indicator
       await wait(300);
-      scroll.style.transition = 'opacity .6s ease, transform .6s ease';
-      scroll.style.opacity    = '1';
-      scroll.style.transform  = 'translateY(0)';
-      sfill.style.animation   = 'heroDropLine 2s ease-in-out infinite';
-      sarr.style.animation    = 'heroBobArr 2s ease-in-out infinite';
-
-      // hide loader DOM after wipe done
-      setTimeout(() => { loader.style.display = 'none'; }, 700);
+      if (scroll && sfill && sarr) {
+        scroll.style.transition = 'opacity .6s ease, transform .6s ease';
+        scroll.style.opacity    = '1';
+        scroll.style.transform  = 'translateY(0)';
+        sfill.style.animation   = 'heroDropLine 2s ease-in-out infinite';
+        sarr.style.animation    = 'heroBobArr 2s ease-in-out infinite';
+      }
     };
 
     run();
@@ -212,54 +188,6 @@ const HeroSection = () => {
             rgba(0,0,0,0.1) 80%, transparent 100%)`,
         }}
       />
-
-      {/* ── LOADER ── */}
-      <div
-        ref={loaderRef}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 100,
-          background: '#000',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center', gap: '18px',
-          transformOrigin: 'top',
-        }}
-      >
-        <div
-          ref={lLogoRef}
-          style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '28px', letterSpacing: '.1em',
-            color: '#fff', textAlign: 'center', opacity: 0,
-          }}
-        >
-          LIMITED <span style={{ color: '#ef4444' }}>EDITION</span>
-          <span style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '11px', letterSpacing: '.5em',
-            color: 'rgba(255,255,255,0.3)',
-            display: 'block', marginTop: '3px',
-          }}>
-            STUDIO
-          </span>
-        </div>
-
-        <div style={{ width: '140px', height: '1px', background: 'rgba(255,255,255,0.07)', borderRadius: '1px', overflow: 'hidden' }}>
-          <div
-            ref={lBarRef}
-            style={{
-              height: '100%', width: '0%',
-              background: 'linear-gradient(to right, rgba(239,68,68,0.4), #ef4444)',
-            }}
-          />
-        </div>
-
-        <div
-          ref={lPctRef}
-          style={{ fontSize: '9px', letterSpacing: '.14em', color: 'rgba(255,255,255,0.2)' }}
-        >
-          0%
-        </div>
-      </div>
 
       {/* ── HERO ── */}
       <div

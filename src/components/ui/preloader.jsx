@@ -17,7 +17,7 @@ const Preloader = () => {
     
     let currentProgress = 0;
     const interval = setInterval(() => {
-      // Randomly increase progress to simulate real loading
+      // Simulate real loading
       currentProgress += Math.floor(Math.random() * 20) + 10; // slightly faster for internal routing
       if (currentProgress >= 100) {
         currentProgress = 100;
@@ -26,7 +26,7 @@ const Preloader = () => {
         setTimeout(() => {
           setLoading(false);
           document.body.style.overflow = 'auto';
-        }, 300);
+        }, 200);
       }
       setProgress(currentProgress);
     }, 100);
@@ -42,37 +42,47 @@ const Preloader = () => {
       {loading && (
         <motion.div
           key="preloader"
-          initial={{ opacity: 1 }}
-          exit={{ y: '-100%' }}
-          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-          className="fixed inset-0 z-[999999] bg-[#0a0a0a] flex flex-col items-center justify-center text-white"
+          initial={{ scaleY: 1 }}
+          exit={{ scaleY: 0 }}
+          style={{ transformOrigin: 'top' }}
+          transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1] }}
+          className="fixed inset-0 z-[999999] bg-[#000] flex flex-col items-center justify-center gap-[18px]"
         >
-          {/* Logo or Brand Name */}
-          <div className="overflow-hidden mb-12">
-            <motion.h1 
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="text-4xl md:text-7xl font-display uppercase tracking-[0.2em] font-bold text-center"
-            >
-              Limited<br/><span className="text-red-600">Edition</span>
-            </motion.h1>
+          {/* Logo */}
+          <div
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: '28px', letterSpacing: '.1em',
+              color: '#fff', textAlign: 'center',
+            }}
+          >
+            LIMITED <span style={{ color: '#ef4444' }}>EDITION</span>
+            <span style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: '11px', letterSpacing: '.5em',
+              color: 'rgba(255,255,255,0.3)',
+              display: 'block', marginTop: '3px',
+            }}>
+              STUDIO
+            </span>
           </div>
 
           {/* Progress Bar Container */}
-          <div className="w-64 md:w-96 h-[2px] bg-white/10 overflow-hidden relative">
+          <div style={{ width: '140px', height: '1px', background: 'rgba(255,255,255,0.07)', borderRadius: '1px', overflow: 'hidden' }}>
             <motion.div 
-              className="absolute top-0 left-0 h-full bg-red-600"
+              style={{
+                height: '100%',
+                background: 'linear-gradient(to right, rgba(239,68,68,0.4), #ef4444)',
+              }}
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
+              transition={{ duration: 0.1, ease: 'linear' }}
             />
           </div>
 
           {/* Percentage */}
-          <div className="mt-6 font-mono text-xs tracking-[0.3em] text-white/50 flex w-64 md:w-96 justify-between">
-            <span>LOADING EXPERIENCE</span>
-            <span>{progress}%</span>
+          <div style={{ fontSize: '9px', letterSpacing: '.14em', color: 'rgba(255,255,255,0.2)' }}>
+            {progress}%
           </div>
         </motion.div>
       )}
