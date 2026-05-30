@@ -18,9 +18,11 @@ const AboutPage = () => {
   ];
 
   const timeline = [
-    { year: "2023 - Present", role: "Lead Video Editor", company: "Creative Studio X", desc: "Leading a team of editors, managing post-production workflows for high-end commercial clients." },
-    { year: "2021 - 2023", role: "Freelance Editor", company: "Various Clients", desc: "Delivered over 100+ projects including music videos, short films, and brand documentaries." },
-    { year: "2019 - 2021", role: "Junior Editor", company: "Film House", desc: "Assisted senior editors, organized footage, and cut social media teasers." },
+    { year: "01", role: "Motion Graphics", company: "", desc: "Creating dynamic animations, visual effects, and motion-based content that enhances communication and engagement." },
+    { year: "02", role: "Video Editing", company: "", desc: "Crafting professional edits with smooth pacing, transitions, sound design, and attention to detail." },
+    { year: "03", role: "Cinematic Content", company: "", desc: "Producing visually appealing edits that combine creativity, atmosphere, and strong visual presentation." },
+    { year: "04", role: "Videography", company: "", desc: "Capturing high-quality footage and transforming raw moments into polished final productions." },
+    { year: "05", role: "Creative Production", company: "", desc: "Managing projects from concept to final delivery while maintaining quality and consistency throughout the process." },
   ];
 
   return (
@@ -113,16 +115,16 @@ const AboutPage = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h3 className="text-sm text-red-500 tracking-[0.3em] uppercase mb-4">The Journey</h3>
+              <h3 className="text-sm text-red-500 tracking-[0.3em] uppercase mb-4">ABOUT ME</h3>
               <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight">
-                Crafting visual stories that <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-white">captivate</span> and inspire.
+                Creating visuals that capture attention and leave a lasting impression.
               </h2>
               <div className="space-y-6 text-neutral-400 text-lg font-light leading-relaxed">
                 <p>
-                  [Placeholder] With over 5 years of experience in the industry, I've dedicated myself to the art of visual storytelling. My approach blends technical precision with creative intuition, ensuring every frame serves a purpose.
+                  I'm Sai Pavan, a Motion Graphics Designer, Video Editor, and Videographer passionate about bringing ideas to life through creativity and visual design. My work combines motion graphics, professional editing, and content creation to produce engaging and impactful visuals.
                 </p>
                 <p>
-                  [Placeholder] Whether it's a high-energy commercial, a profound documentary, or an immersive music video, my goal is to evoke emotion and deliver an unforgettable experience.
+                  From cinematic edits and social media content to motion design and video production, I focus on creating content that is clean, modern, and memorable. Every project is an opportunity to transform concepts into visuals that connect with audiences and stand out.
                 </p>
               </div>
             </motion.div>
@@ -203,8 +205,8 @@ const AboutPage = () => {
                     <h4 className="font-bold text-xl text-white">{item.role}</h4>
                     <span className="text-sm text-red-500 font-mono tracking-wider">{item.year}</span>
                   </div>
-                  <h5 className="text-neutral-400 text-sm uppercase tracking-wider mb-4">{item.company}</h5>
-                  <p className="text-neutral-500 font-light text-sm leading-relaxed">{item.desc}</p>
+                  {item.company && <h5 className="text-neutral-400 text-sm uppercase tracking-wider mb-4">{item.company}</h5>}
+                  <p className="text-neutral-500 font-light text-sm leading-relaxed mt-2">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
