@@ -12,27 +12,6 @@ const projects = [
     image: null,
     link: "#"
   },
-  {
-    id: 2,
-    title: "Urban Flow | Streetwear Brand",
-    category: "Commercial",
-    image: "https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=2000&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 3,
-    title: "The Escape | Short Film Trailer",
-    category: "Narrative",
-    image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2000&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 4,
-    title: "Rhythm & Soul | Music Video",
-    category: "Music Video",
-    image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop",
-    link: "#"
-  }
 ];
 
 // ── Video Lightbox Modal ──────────────────────────────────────────────────────
