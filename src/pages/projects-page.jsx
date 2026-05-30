@@ -230,8 +230,7 @@ const PROJECTS = [
     type: 'portrait',
     dur: null,
     gradient: 'linear-gradient(160deg,#1a0505,#0a0a0a)',
-    youtubeId: 'fTo3MmpIjIE',
-    videoSrc: null,
+    videoSrc: '/videos/Resent Client Work.mp4',
     featured: true,
   },
   {
